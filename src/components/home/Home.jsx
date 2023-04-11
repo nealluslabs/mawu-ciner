@@ -20,9 +20,19 @@ const SamplePrevArrow = (props) => {
   )
 }
 const Home = ({ items }) => {
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  }
   return (
     <>
       <div className='homeContainer'>
+        <Slider {...settings}>
           {items.map((item) => {
             return (
               <>
@@ -30,6 +40,7 @@ const Home = ({ items }) => {
               </>
             )
           })}
+        </Slider>
       </div>
     </>
   )

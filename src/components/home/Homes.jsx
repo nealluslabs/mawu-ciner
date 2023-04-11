@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import "./home.css"
+import { homeData } from "../../utils/dummyData"
 import Home from "./Home"
-import { homeData } from "../../pages/data"
 
 const Homes = () => {
   const [items, setItems] = useState(homeData)
@@ -9,7 +9,7 @@ const Homes = () => {
   return (
     <>
       <section className='home'>
-      <Home items={items} />
+        <Home items={items} />
         <div style={{ height: '25%', width: '100%', backgroundColor: 'black', position: 'relative', bottom: '20px' }}>
         </div><br/><br/>
         

@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-const HomeCard = ({ item: { cover, name, desc } }) => {
+const HomeCard = ({ item: { cover, name, desc} }) => {
   return (
     <>
       <div className='box'>
@@ -10,7 +10,7 @@ const HomeCard = ({ item: { cover, name, desc } }) => {
         </div>
         <div className='content flex'>
           <div className='details row'>
-            <h1>{name}</h1>
+            <h1 style={{color: 'white'}}>{name}</h1>
             <p>{desc}</p>
             <button className='primary-btn' style={{backgroundColor: '#FF7D05'}}>
               <i className='fas fa-play'></i> PLAY

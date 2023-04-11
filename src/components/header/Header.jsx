@@ -1,5 +1,10 @@
 import React, { useState } from "react"
 import "./header.css"
+import SearchIcon from "@material-ui/icons/Search";
+import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
+import { Avatar } from "@material-ui/core";
+
+
 
 const Header = () => {
   const [Mobile, setMobile] = useState(false)
@@ -20,7 +25,7 @@ const Header = () => {
                 <a href='/'>Home</a>
               </li>
               <li>
-                <a href='/'>Library</a>
+                <a href='/auth'>Library</a>
               </li>
               <li>
                 <a href='/'>Discord</a>
@@ -30,6 +35,15 @@ const Header = () => {
               {Mobile ? <i className='fa fa-times'></i> : <i className='fa fa-bars'></i>}
             </button>
           </nav>
+          <div className='account flexSB'>
+          <SearchIcon style={{ marginRight: '20px', fontSize: '26px' }} />
+          <NotificationsNoneIcon style={{ marginRight: '20px', fontSize: '26px' }} />
+          <Avatar
+            alt="User Avatar"
+            sx={{ width: 80, height: 80 }}
+          />
+        </div>
+
         </div>
       </header>
     </>
