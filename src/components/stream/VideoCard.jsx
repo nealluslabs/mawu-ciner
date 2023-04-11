@@ -17,8 +17,8 @@ const VideoCard = ( { name, cover } ) => {
                 p: 2,
                 display: "flex",
                 flexDirection: "column",
-                height: 200,
-                border: "1px solid black",
+                // height: 200,
+                border: "1px solid red",
               }}
             >
               <img src={cover} style={{ width: "100%"}} />
