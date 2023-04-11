@@ -10,6 +10,7 @@ const HomePage = () => {
     <>
       <Homes />
       <VideoStreams title='Continue watching'/>
+      <br/><br/><br/>
       <TrendingStreams  title='Trending Now'/>
     </>
   )

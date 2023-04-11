@@ -3,11 +3,13 @@ import "./header.css"
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import { Avatar } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 
 
 const Header = () => {
   const [Mobile, setMobile] = useState(false)
+  const history = useHistory();
   return (
     <>
       <header>
@@ -25,7 +27,7 @@ const Header = () => {
                 <a href='/'>Home</a>
               </li>
               <li>
-                <a href='/auth'>Library</a>
+                <a href="#" onClick={() => history.push('/auth')}>Library</a>
               </li>
               <li>
                 <a href='/'>Discord</a>
