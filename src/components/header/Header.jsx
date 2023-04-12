@@ -3,7 +3,7 @@ import "./header.css"
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import { Avatar } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 
 
@@ -27,7 +27,7 @@ const Header = () => {
                 <a href='/'>Home</a>
               </li>
               <li>
-                <a href="/library" /*onClick={() => history.push('/auth')}*/>Library</a>
+                <Link to ={'/library'} style={{marginLeft:"30px"}}> Library</Link>
               </li>
               <li>
                 <a href='#'>Discord</a>
