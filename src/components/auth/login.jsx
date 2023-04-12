@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Paper,
@@ -8,7 +8,12 @@ import {
   Typography,
   Link,
 } from "@material-ui/core";
+import Alert from '@mui/material/Alert';
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from 'react-redux';
+import {useHistory} from 'react-router-dom'
+import { signin, logout } from '../../redux/actions/auth.action';
+import { logoutSuccess } from '../../redux/reducers/auth.slice';
 
 const useStyles = makeStyles({
   root: {
@@ -25,6 +30,25 @@ const useStyles = makeStyles({
 });
 
 const Login = ({ handleChange }) => {
+ 
+  const { isLoading, error,user,message } = useSelector( (state) => state.auth); 
+  console.log("this is error",error)
+
+   const dispatch = useDispatch()
+   const history  =useHistory()
+  const [email,setEmail] = useState('')
+  const [password,setPassword] = useState('')
+
+  function onSubmit() {
+    // dispatch(submitLogin(model));
+   
+    const user = { email, password };
+    dispatch(signin(user, history));
+    
+  }
+
+ 
+ 
   const classes = useStyles();
   const paperStyle = {
     padding: 20,
@@ -61,6 +85,8 @@ const Login = ({ handleChange }) => {
             },
             placeholder: "Email address",
           }}
+          value ={email}
+          onChange={(e)=>setEmail(e.target.value)}
         />
         <br />
         <br />
@@ -80,6 +106,8 @@ const Login = ({ handleChange }) => {
             },
             placeholder: "Password",
           }}
+          value ={password}
+          onChange={(e)=>setPassword(e.target.value)}
         />
         <br />
         <Button
@@ -87,6 +115,7 @@ const Login = ({ handleChange }) => {
           color="primary"
           variant="contained"
           style={btnstyle}
+          onClick={onSubmit}
           fullWidth
         >
           Login
@@ -102,6 +131,16 @@ const Login = ({ handleChange }) => {
             Terms & Privacy policy
           </Link>
         </p>
+        {error && <div><Alert style={{ position:"relative",top:"5rem" ,opacity:"1" }} //opactiy condition{/*error?"1":"0"*/}
+        severity="error" color="error"
+        action={
+          <Button color="inherit" size="small" style={{ fontSize: '15px' }} onClick={() => {dispatch(logoutSuccess())}}>
+            <b>X</b>
+          </Button>
+        }
+      >
+        <p style={{ fontSize: '14px' }}><b>{error}</b></p>
+      </Alert><br/></div>}
       </Paper>
     </Grid>
   );

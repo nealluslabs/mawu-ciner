@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom"
-import Trend1 from "../../assets/trend-1.png";
-import Trend2 from "../../assets/trend-2.png";
-import Trend3 from "../../assets/trend-3.png";
-import Trend4 from "../../assets/trend-4.png";
+import Trend1 from "../../assets/trend-1.jpeg";
+import Trend2 from "../../assets/trend-2.jpg";
+import Trend3 from "../../assets/trend-3.jpg";
+import Trend4 from "../../assets/trend-4.jpg";
 import TrendingCard from "./TrendingCard";
 import { Grid, Container} from "@material-ui/core";
 
@@ -19,9 +19,9 @@ const TrendingStreams = ({ title }) => {
        
           <Grid container spacing={2}>
             <TrendingCard name="Avatar" cover={Trend1}/>
-            <TrendingCard name="Shazam" cover={Trend2}/>
-            <TrendingCard name="Spiderhead" cover={Trend3}/>
-            <TrendingCard name="Cowboy aliens" cover={Trend4}/>
+            <TrendingCard name="Thor" cover={Trend2}/>
+            <TrendingCard name="Beast" cover={Trend3}/>
+            <TrendingCard name="Vikram" cover={Trend4}/>
             </Grid>
             <br/><br/><br/><br/><br/><br/><br/>
       </Container>

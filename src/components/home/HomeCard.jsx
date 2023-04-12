@@ -11,7 +11,9 @@ const HomeCard = ({ item: { cover, name, desc} }) => {
         <div className='content flex'>
           <div className='details row'>
             <h1 style={{color: 'white'}}>{name}</h1>
-            <p>{desc}</p>
+            <p >{desc}</p>
+            <br/>
+            <br/>
             <button className='primary-btn' style={{backgroundColor: '#FF7D05'}}>
               <i className='fas fa-play'></i> PLAY
             </button>
