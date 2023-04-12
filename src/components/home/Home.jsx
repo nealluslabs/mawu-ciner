@@ -31,8 +31,8 @@ const Home = ({ items }) => {
   }
   return (
     <>
-      <div className='homeContainer'>
-        <Slider {...settings}>
+      <div className='homeContainer' >
+        {/*<Slider {...settings}>*/}
           {items.map((item) => {
             return (
               <>
@@ -40,7 +40,7 @@ const Home = ({ items }) => {
               </>
             )
           })}
-        </Slider>
+       {/* </Slider>*/}
       </div>
     </>
   )

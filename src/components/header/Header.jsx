@@ -27,10 +27,10 @@ const Header = () => {
                 <a href='/'>Home</a>
               </li>
               <li>
-                <a href="#" onClick={() => history.push('/auth')}>Library</a>
+                <a href="/library" /*onClick={() => history.push('/auth')}*/>Library</a>
               </li>
               <li>
-                <a href='/'>Discord</a>
+                <a href='#'>Discord</a>
               </li>
             </ul>
             <button className='toggle' onClick={() => setMobile(!Mobile)}>

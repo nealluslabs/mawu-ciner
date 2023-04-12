@@ -7,10 +7,10 @@ import Trend4 from "../../assets/trend-4.png";
 import TrendingCard from "./TrendingCard";
 import { Grid, Container} from "@material-ui/core";
 
-const TrendingStreams = ({ title }) => {
+const TrendingEmpty = ({ title }) => {
   return (
     <>
-      <Container maxWidth="xl" style={{backgroundColor: 'black', padding: '20px', paddingLeft: "7%", paddingRight: "7%"}}>
+      <Container maxWidth="xl" className="flexiSpace" style={{backgroundColor: 'black', padding: '20px', paddingLeft: "7%", paddingRight: "7%",opacity:"0%"}}>
       <div className='heading flexMovieHeader'>
             <h1 style={{color: 'orange'}}>{title}</h1>
             
@@ -29,4 +29,4 @@ const TrendingStreams = ({ title }) => {
   );
 };
 
-export default TrendingStreams;
+export default TrendingEmpty;

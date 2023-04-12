@@ -20,6 +20,17 @@ ul {
   justify-content: space-between;
   align-items: center;
 }
+
+.flexMovieHeader {
+  display: flex;
+  justify-content: flex-start;
+  gap:6rem;
+  align-items: center;
+}
+.flexiSpace{
+  display: block;
+}
+
 .flex {
   display: flex;
 }
@@ -123,10 +134,25 @@ p {
 .MovieBox button i {
   margin-right: 10px;
 }
+
+
+/* ==================== MEDIUM DEVICES ===================*/
+
+@media only screen and (max-width: 768px) {
+  .flexiSpace{
+    display: none !important;
+  }
+}
+
+
+
+
 /*---------------MovieBox-------------*/
 @media only screen and (max-width: 768px) {
   .MovieBox {
     width: 320px;
     height: 250px;
   }
+
+  
 }

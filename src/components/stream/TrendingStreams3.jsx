@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom"
-import Trend1 from "../../assets/trend-1.png";
-import Trend2 from "../../assets/trend-2.png";
-import Trend3 from "../../assets/trend-3.png";
-import Trend4 from "../../assets/trend-4.png";
+import Trend1 from "../../assets/trend-5.jpeg";
+import Trend2 from "../../assets/trend-6.jpeg";
+import Trend3 from "../../assets/trend-7.jpeg";
+import Trend4 from "../../assets/trend-8.jpeg";
 import TrendingCard from "./TrendingCard";
 import { Grid, Container} from "@material-ui/core";
 
-const TrendingStreams = ({ title }) => {
+const TrendingStreams3 = ({ title }) => {
   return (
     <>
       <Container maxWidth="xl" style={{backgroundColor: 'black', padding: '20px', paddingLeft: "7%", paddingRight: "7%"}}>
@@ -18,10 +18,10 @@ const TrendingStreams = ({ title }) => {
        </div>
        
           <Grid container spacing={2}>
-            <TrendingCard name="Avatar" cover={Trend1}/>
-            <TrendingCard name="Shazam" cover={Trend2}/>
-            <TrendingCard name="Spiderhead" cover={Trend3}/>
-            <TrendingCard name="Cowboy aliens" cover={Trend4}/>
+            <TrendingCard name="The Square" cover={Trend1}/>
+            <TrendingCard name="007- skyfall" cover={Trend2}/>
+            <TrendingCard name="San Andres" cover={Trend3}/>
+            <TrendingCard name="Black Panther" cover={Trend4}/>
             </Grid>
             <br/><br/><br/><br/><br/><br/><br/>
       </Container>
@@ -29,4 +29,4 @@ const TrendingStreams = ({ title }) => {
   );
 };
 
-export default TrendingStreams;
+export default TrendingStreams3;
