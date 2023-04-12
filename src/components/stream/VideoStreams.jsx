@@ -18,7 +18,7 @@ const VideoStreams = ({ title }) => {
             {/* <Link to='/'>View All</Link> */}
           </div>
         <Grid container spacing={2}>
-          <VideoCard name={"The Return Of King-Kong"} cover={BGIMG1}/>
+          <VideoCard name={"The Return Of King Kong"} cover={BGIMG1}/>
           <VideoCard name={"Shadow - The Rebirth"} cover={BGIMG2}/>
         </Grid>
       </Container>
