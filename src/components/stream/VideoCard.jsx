@@ -86,6 +86,7 @@ const removeMovie = (userId,movieName) =>{
                 url={"https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/DarkKnight.mp4" }
                 light={thumbnail}
                 playing={videoTime}
+                playIcon={' '}
                 //ref={videoRef}
                 
                

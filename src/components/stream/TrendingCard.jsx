@@ -27,7 +27,7 @@ const doVideoActions = () => {
         style={{ border: "0px solid green", maxHeight: 350, }}
       >
         {<ReactPlayer   
-                width="100%"
+                width="70%"
                                                              
                 className="videoFrame"
                 url={"https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/DarkKnight.mp4" }
