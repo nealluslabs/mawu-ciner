@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useRef} from 'react'
 import {
   Grid,
   Container,
@@ -18,7 +18,17 @@ const VideoCard = ( { name, cover } ) => {
 const dispatch =useDispatch()
 const [added,setAdded] = useState(false)
 const [videoTime,setVideoTime] = useState(false)
+const [thumbnail,setThumbnail] = useState(cover)
+const videoRef = useRef()
 
+const doVideoActions = () => {
+  if(thumbnail === cover) 
+  {setThumbnail(false)
+  }else{setThumbnail(cover)}
+
+
+   setVideoTime(!videoTime)
+}
 
 useEffect(()=>{
 
@@ -45,7 +55,7 @@ const removeMovie = (userId,movieName) =>{
  
  
  const { user,error,message,isLoading } = useSelector((state) => state.auth);
- console.log("THIS IS THE LOGGED IN USER INFO",user)
+ //console.log("THIS IS THE LOGGED IN USER INFO",user)
 
   return (
     <>
@@ -59,29 +69,32 @@ const removeMovie = (userId,movieName) =>{
                 border: "0px solid red",
               }}
             >
-            {videoTime && 
+            {/*videoTime && 
              <div style={{position:"relative",top:"-20px"}}>
             <video width="750" height="480"  autoplay="autoplay" controls>
                <source src="https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/DarkKnight.mp4" 
                type="video/mp4"/>
             </video> 
              </div>
-            }
+            */}
 
 
-               {/*<ReactPlayer   
-                width="100%"                                              
+               {<ReactPlayer   
+                width="100%"
+                                                             
                 className="videoFrame"
                 url={"https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/DarkKnight.mp4" }
-                light={cover}
-                playing
+                light={thumbnail}
+                playing={videoTime}
+                //ref={videoRef}
+                
                
-              />*/}
+              />}
 
-              {!videoTime && <img src={cover} style={{ width: "100%"}} />}
+              {/*!videoTime && <img src={cover} style={{ width: "100%"}} />*/}
 
               <p style={{fontSize: "20px", marginBottom: "10px", color: 'white'}}>{name}</p>
-              {!videoTime && <LinearProgress
+              { <LinearProgress
                 variant="determinate"
                 value={50}
                 // color="primary"
@@ -97,7 +110,7 @@ const removeMovie = (userId,movieName) =>{
                     },
                 }}
                 />}
-                <div onClick={()=>{setVideoTime(!videoTime)}} style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                <div onClick={()=>{doVideoActions()}} style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                 { videoTime? <StopIcon style={{ fontSize: '24px', color: '#BC4705' }} />
                 :
                 <PlayArrowIcon style={{ fontSize: '24px', color: '#BC4705' }} />
