@@ -35,10 +35,8 @@ export const signup = (user,history) => async (dispatch) => {
   ).then((res)=>{
      db.collection('UserData').doc(res.user.uid).set({
       uid: res.user.uid,
-      firstName: user.fName,
-      lastName:user.lName,
+      fullName: user.fullName,
       email: user.email,
-      phone: user.phone,
       password: user.password,
       registeredOn:new Date(),
       /*businessName:user.bName,
@@ -53,10 +51,10 @@ export const signup = (user,history) => async (dispatch) => {
     })
     
 
-    dispatch(fetchUserData(res.user.uid, "sigin"));
+    dispatch(fetchUserData(res.user.uid, "sigin",history));
   }).then(() => {
    
-    history.push("/dashboard/home");
+    history.push("/home");
   }).catch((err) => {
     console.error("Error signing up: ", err);
     var errorMessage = err.message;
@@ -98,7 +96,7 @@ export const fetchUserData = (id, type, history) => async (dispatch) => {
   var user = db.collection("UserData").doc(id);
   user.get().then((doc) => {
   if (doc.exists) {
-     console.log("User Data is now!:", doc.data());
+     console.log("User Data from database!:", doc.data());
     dispatch(storeUserData(doc.data()));
     if(type === "sigin"){
       

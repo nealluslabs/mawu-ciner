@@ -1,7 +1,9 @@
 import { db, fb, auth, storage } from '../../config/firebase';
+import "firebase/firestore";
+import firebase from "firebase/app";
 import { clearUser, loginFailed, loginSuccess, logoutFxn, signupFailed, storeUserData } from '../reducers/auth.slice';
 import { v4 as uuidv4 } from 'uuid';
-import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
+import { notifyErrorFxn, notifySuccessFxn } from '../../utils/toast-fxn';
 import { isItLoading, saveAllGroup, saveEmployeer, saveGroupMembers, saveMyGroup, savePrivateGroup, savePublicGroup } from '../reducers/group.slice';
 
 
@@ -39,6 +41,38 @@ export const createGroup = (groupData, user, file, navigate, url) => async (disp
     notifyErrorFxn(errorMessage);
     dispatch(isItLoading(false));
   })
+}
+
+export const addToUserPlaylist = (uid,title/*,setAdded*/) => async (dispatch) => {
+  console.log('about to add title',title)
+  db.collection("UserData").doc(uid).update({
+  watchList:firebase.firestore.FieldValue.arrayUnion(title)
+}).then((docRef) => {
+  console.log("Document updated is: ", docRef);
+  /*setAdded(true)*/
+  
+})
+.catch((error) => {
+  console.error("Error adding adding movie to watch List: ", error);
+  notifyErrorFxn("movie could not be added, please try again")
+  
+});
+}
+
+
+export const removeFromUserPlaylist =(uid,title/*,setAdded*/) => async (dispatch) => {
+  console.log('about to remove title',title)
+  db.collection("UserData").doc(uid).update({
+    watchList:firebase.firestore.FieldValue.arrayRemove(title)
+  }).then((docRef) => {
+    console.log("Document updated is: ", docRef);
+    /*setAdded(false)*/
+})
+.catch((error) => {
+    console.error("Error deleting movie from watchList: ", error);
+    notifyErrorFxn("movie could not be removed, please try again")
+});
+
 }
 
 

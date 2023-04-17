@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState } from "react";
 import {
   Grid,
   Paper,
@@ -9,6 +9,14 @@ import {
   Link,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Alert from '@mui/material/Alert';
+import { useDispatch, useSelector } from 'react-redux';
+import {useHistory} from 'react-router-dom'
+import { signup } from '../../redux/actions/auth.action';
+import { logoutSuccess } from '../../redux/reducers/auth.slice';
+
+
+
 
 const useStyles = makeStyles({
   root: {
@@ -40,6 +48,34 @@ const Register = ({ handleChange }) => {
     padding: "10px",
     marginTop: "20px",
   };
+
+  const [fullName,setFullName] = useState('')
+  const [email,setEmail] = useState('')
+  const [password,setPassword] = useState('')
+  
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  function userSignup(model) {
+   
+    const user = { fullName,
+                  
+                   email,
+                   
+                   password,
+                   
+                 };
+   // history('/dashboard/home')
+    // console.log("THIS IS USER",user)
+    dispatch(signup(user, history));
+  }
+
+
+  const { isLoading, error,user,message } = useSelector( (state) => state.auth); 
+  console.log("this is error",error)
+
+   // const { isLoading, error } = useSelector( (state) => state.login);
+
   return (
     <Grid>
       <Paper style={paperStyle}>
@@ -47,6 +83,8 @@ const Register = ({ handleChange }) => {
           <br />
         </Grid>
         <TextField
+        value={fullName}
+        onChange={(e)=>{setFullName(e.target.value)}}
           fullWidth
           required
           style={{
@@ -61,10 +99,13 @@ const Register = ({ handleChange }) => {
             },
             placeholder: "Full Name",
           }}
+          
         />
         <br />
         <br />
         <TextField
+        value={email}
+        onChange={(e)=>{setEmail(e.target.value)}}
           fullWidth
           required
           style={{
@@ -84,7 +125,11 @@ const Register = ({ handleChange }) => {
         <br />
         <TextField
           // label='.'
+         
+          value={password}
+         onChange={(e)=>{setPassword(e.target.value)}}
           fullWidth
+          type={"password"}
           required
           style={{
             border: "1px solid #2F2F2F",
@@ -98,6 +143,7 @@ const Register = ({ handleChange }) => {
             },
             placeholder: "Password",
           }}
+          
         />
         <br />
         <Button
@@ -106,6 +152,7 @@ const Register = ({ handleChange }) => {
           variant="contained"
           style={btnstyle}
           fullWidth
+          onClick = {userSignup}
         >
           Register
         </Button>
@@ -119,6 +166,19 @@ const Register = ({ handleChange }) => {
             Login
           </Link>
         </p>
+
+        {error && error.errorMessage && <div><Alert style={{ position:"relative",top:"5rem" ,opacity:"1" }} //opactiy condition{/*error?"1":"0"*/}
+        severity="error" color="error"
+        action={
+          <Button color="inherit" size="small" style={{ fontSize: '15px' }} onClick={() => {dispatch(logoutSuccess())}}>
+            <b>X</b>
+          </Button>
+        }
+      >
+        <p style={{ fontSize: '14px' }}><b>{error.errorMessage}</b></p>
+      </Alert><br/></div>}
+
+
       </Paper>
     </Grid>
   );

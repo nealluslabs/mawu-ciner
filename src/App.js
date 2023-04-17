@@ -1,17 +1,27 @@
 import "./App.css"
 import HomePage from "./pages/HomePage"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { render } from "react-dom";
+import { BrowserRouter as Router,Redirect, Switch, Route,useLocation } from "react-router-dom"
 import Header from "./components/header/Header"
 import LoginAndRegister from "./pages/LoginAndRegister"
 import LibraryPage from "./pages/LibraryPage"
 import ThemeProvider from './theme';
 import { ToastContainer } from 'react-toastify';
-
+import {useEffect,useState} from 'react'
 
 function App() {
-  
-  const location = window.location.pathname;
-   console.log('pathname is', location.length) 
+  const [loggedIn,setLoggedIn] = useState(true)
+  const location = useLocation()
+   console.log('pathname is', location.pathname) 
+
+   useEffect(()=>{
+    if(
+     location.pathname === '/' || location.pathname === '/login' 
+    ){
+      setLoggedIn(false)
+    }
+
+   },[location.pathname])
   
   return (
     <>
@@ -28,10 +38,21 @@ function App() {
             pauseOnHover
           />
       <Router>
-       {location !== '/login' && <Header />}
+       <Header />
         <Switch>
+        <Route
+                exact
+                path="/"
+                render={() => {
+                    return (
+                     
+                      <Redirect to="/login" /> 
+                     
+                    )
+                }}
+              />
           <Route exact path='/login' component={LoginAndRegister} />
-          <Route exact path='/' component={HomePage} />
+          <Route exact path='/home' component={HomePage} />
           <Route exact path='/library' component={LibraryPage} />
           
         </Switch>

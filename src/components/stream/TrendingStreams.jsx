@@ -14,7 +14,7 @@ const TrendingStreams = ({ title }) => {
       <div className='heading flexMovieHeader'>
             <h1 style={{color: 'orange'}}>{title}</h1>
             
-            <Link to='/'><h1 style={{color: 'white'}}>View All</h1></Link>
+            <Link to='#'><h1 style={{color: 'white'}}>View All</h1></Link>
        </div>
        
           <Grid container spacing={2}>

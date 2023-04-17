@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import {
   Grid,
   Container,
@@ -6,9 +6,47 @@ import {
   Box,
 } from "@material-ui/core";
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import StopIcon from '@mui/icons-material/Stop';
 import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import { fetchGroups, fetchMyGroups, uploadGroupImage,removeFromUserPlaylist,addToUserPlaylist} from '../../redux/actions/group.action';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserData } from '../../redux/actions/auth.action';
+import ReactPlayer from 'react-player'
 
 const VideoCard = ( { name, cover } ) => {
+const dispatch =useDispatch()
+const [added,setAdded] = useState(false)
+const [videoTime,setVideoTime] = useState(false)
+
+
+useEffect(()=>{
+
+  dispatch(fetchUserData)
+
+},[added])
+ 
+useEffect(()=>{
+
+  if(user.watchList.includes(name)){
+    
+    setAdded(true)
+  }
+
+},[])
+
+const removeMovie = (userId,movieName) =>{
+  dispatch(removeFromUserPlaylist(userId,movieName/*,setAdded*/))
+   
+  setAdded(false)
+ //we cant exactly setAdded until we confirm that the item 
+ //has been removed from the playlist, but I trigger it for now
+}
+ 
+ 
+ const { user,error,message,isLoading } = useSelector((state) => state.auth);
+ console.log("THIS IS THE LOGGED IN USER INFO",user)
+
   return (
     <>
        <Grid item xs={12} md={8} lg={6}>
@@ -21,9 +59,29 @@ const VideoCard = ( { name, cover } ) => {
                 border: "0px solid red",
               }}
             >
-              <img src={cover} style={{ width: "100%"}} />
+            {videoTime && 
+             <div style={{position:"relative",top:"-20px"}}>
+            <video width="750" height="480"  autoplay="autoplay" controls>
+               <source src="https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/DarkKnight.mp4" 
+               type="video/mp4"/>
+            </video> 
+             </div>
+            }
+
+
+               {/*<ReactPlayer   
+                width="100%"                                              
+                className="videoFrame"
+                url={"https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/DarkKnight.mp4" }
+                light={cover}
+                playing
+               
+              />*/}
+
+              {!videoTime && <img src={cover} style={{ width: "100%"}} />}
+
               <p style={{fontSize: "20px", marginBottom: "10px", color: 'white'}}>{name}</p>
-              <LinearProgress
+              {!videoTime && <LinearProgress
                 variant="determinate"
                 value={50}
                 // color="primary"
@@ -38,14 +96,24 @@ const VideoCard = ( { name, cover } ) => {
                     bgcolor: "#BC4705",
                     },
                 }}
-                />
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                />}
+                <div onClick={()=>{setVideoTime(!videoTime)}} style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                { videoTime? <StopIcon style={{ fontSize: '24px', color: '#BC4705' }} />
+                :
                 <PlayArrowIcon style={{ fontSize: '24px', color: '#BC4705' }} />
-                <p style={{ fontSize: '20px', color: '#BC4705', marginLeft: '10px' }}>PLAY</p>
+                 }
+                <p style={{ fontSize: '20px', color: '#BC4705', marginLeft: '10px',pointer:"cursor"  }}>{!videoTime?"PLAY":"STOP"}</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AddIcon style={{ fontSize: '24px', color: '#BC4705' }} />
-                <p style={{ fontSize: '20px', color: '#BC4705', marginLeft: '10px' }}>Add to playlist</p>
+                {!added?<AddIcon style={{ fontSize: '24px', color: '#BC4705' }} />
+                :
+                <RemoveIcon style={{ fontSize: '24px', color: '#BC4705' }} />}
+               
+                <p onClick ={added?()=>{removeMovie(user.uid,name/*,setAdded*/)}:()=>{dispatch(addToUserPlaylist(user.uid,name/*,setAdded*/));setAdded(true)}}
+                 style={{ fontSize: '20px', color: '#BC4705', marginLeft: '10px',pointer:"none" }}>
+                
+                 {added === true ? "Remove from Watchlist": "Add to Watchlist"}
+                </p>
                 </div>
 
             </Box>
