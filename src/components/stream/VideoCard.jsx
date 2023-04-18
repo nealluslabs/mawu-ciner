@@ -22,32 +22,36 @@ const dispatch =useDispatch()
 const [added,setAdded] = useState(false)
 const [videoTime,setVideoTime] = useState(false)
 const [thumbnail,setThumbnail] = useState(cover)
-const [isOpen, setIsOpen] = useState(false);
+const [fullScreen, setFullScreen] = useState(false);
+const [screenTest, setScreenTest] = useState(false);
 const handle = useFullScreenHandle();
 
 const videoRef = useRef()
 
-const toggleFullScreen = () => {
-  var el = document.getElementById("full-screenVideo");
-  if (el.requestFullscreen) {
-    el.requestFullscreen();
-  } else if (el.msRequestFullscreen) {
-    el.msRequestFullscreen();
-  } else if (el.mozRequestFullScreen) {
-    el.mozRequestFullScreen();
-  } else if (el.webkitRequestFullscreen) {
-    el.webkitRequestFullscreen();
-  }
+const handleEsc = (event) => {
+    setFullScreen(!fullScreen)
+  
+    console.log("full screen is",fullScreen)
+
+ /* if(fullScreen){
+    setVideoTime(true)
+  }else if (!fullScreen){
+    setVideoTime(false)
+    setThumbnail(cover)
+  }*/
+ 
+
 };
 
+window.addEventListener('fullscreenchange', handleEsc);
 
 const doVideoActions = () => {
-  if(thumbnail === cover) 
+  setVideoTime(!videoTime)
+ 
+  if(!videoTime) 
   {setThumbnail(false)
   }else{setThumbnail(cover)}
 
-  
-   setVideoTime(!videoTime)
   
    if(!videoTime){
    findDOMNode(videoRef.current).requestFullscreen()
@@ -55,12 +59,32 @@ const doVideoActions = () => {
 }
 
 useEffect(()=>{
-
+  
   dispatch(fetchUserData)
 
 },[added])
 
+/*useEffect(()=>{
 
+ handleEsc()
+
+},[videoTime])*/
+
+useEffect(()=>{
+ 
+  setScreenTest(!screenTest)
+
+if(fullScreen === screenTest){
+  
+  if(fullScreen){
+    setVideoTime(true)
+  }else if (!fullScreen){
+    setVideoTime(false)
+    setThumbnail(cover)
+  }
+}
+
+},[fullScreen])
  
 useEffect(()=>{
 
