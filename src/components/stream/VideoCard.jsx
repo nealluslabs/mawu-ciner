@@ -1,4 +1,5 @@
 import React,{useEffect,useState,useRef} from 'react'
+import { findDOMNode } from 'react-dom'
 import {
   Grid,
   Container,
@@ -13,21 +14,44 @@ import { fetchGroups, fetchMyGroups, uploadGroupImage,removeFromUserPlaylist,add
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserData } from '../../redux/actions/auth.action';
 import ReactPlayer from 'react-player'
+import ReactModal from 'react-modal'
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 const VideoCard = ( { name, cover } ) => {
 const dispatch =useDispatch()
 const [added,setAdded] = useState(false)
 const [videoTime,setVideoTime] = useState(false)
 const [thumbnail,setThumbnail] = useState(cover)
+const [isOpen, setIsOpen] = useState(false);
+const handle = useFullScreenHandle();
+
 const videoRef = useRef()
+
+const toggleFullScreen = () => {
+  var el = document.getElementById("full-screenVideo");
+  if (el.requestFullscreen) {
+    el.requestFullscreen();
+  } else if (el.msRequestFullscreen) {
+    el.msRequestFullscreen();
+  } else if (el.mozRequestFullScreen) {
+    el.mozRequestFullScreen();
+  } else if (el.webkitRequestFullscreen) {
+    el.webkitRequestFullscreen();
+  }
+};
+
 
 const doVideoActions = () => {
   if(thumbnail === cover) 
   {setThumbnail(false)
   }else{setThumbnail(cover)}
 
-
+  
    setVideoTime(!videoTime)
+  
+   if(!videoTime){
+   findDOMNode(videoRef.current).requestFullscreen()
+   }
 }
 
 useEffect(()=>{
@@ -35,6 +59,8 @@ useEffect(()=>{
   dispatch(fetchUserData)
 
 },[added])
+
+
  
 useEffect(()=>{
 
@@ -79,18 +105,22 @@ const removeMovie = (userId,movieName) =>{
             */}
 
 
-               {<ReactPlayer   
+               {
+                 
+                <ReactPlayer   
                 width="100%"
-                                                             
+                 id="full-screenVideo"                                           
                 className="videoFrame"
                 url={"https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/DarkKnight.mp4" }
                 light={thumbnail}
                 playing={videoTime}
                 playIcon={' '}
-                //ref={videoRef}
-                
-               
-              />}
+                controls
+                ref={videoRef}
+                 
+              />
+              
+              }
 
               {/*!videoTime && <img src={cover} style={{ width: "100%"}} />*/}
 
