@@ -1,4 +1,4 @@
-import React,{useState,useRef} from "react";
+import React,{useState,useEffect,useRef} from "react";
 import { findDOMNode } from 'react-dom'
 import { Grid, Container, LinearProgress, Box } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
@@ -10,11 +10,13 @@ import ReactModal from 'react-modal'
 const TrendingCard = ({ name, cover ,url}) => {
   const [videoTime,setVideoTime] = useState(false)
 const [thumbnail,setThumbnail] = useState(cover)
+const [fullScreen, setFullScreen] = useState(false);
+const [screenTest, setScreenTest] = useState(false);
 const [isOpen, setIsOpen] = useState(false);
 
 const videoRef = useRef()
 
-const toggleFullScreen = () => {
+/*const toggleFullScreen = () => {
   var el = document.getElementById("full-screenVideo");
   if (el.requestFullscreen) {
     el.requestFullscreen();
@@ -25,8 +27,24 @@ const toggleFullScreen = () => {
   } else if (el.webkitRequestFullscreen) {
     el.webkitRequestFullscreen();
   }
+};*/
+
+const handleEsc = (event) => {
+  setFullScreen(!fullScreen)
+
+  console.log("full screen is",fullScreen)
+
+/* if(fullScreen){
+  setVideoTime(true)
+}else if (!fullScreen){
+  setVideoTime(false)
+  setThumbnail(cover)
+}*/
+
+
 };
 
+window.addEventListener('fullscreenchange', handleEsc);
 
 const doVideoActions = () => {
   if(thumbnail === cover) 
@@ -41,6 +59,22 @@ const doVideoActions = () => {
     }
 }
 
+useEffect(()=>{
+ 
+  setScreenTest(!screenTest)
+
+if(fullScreen === screenTest){
+  
+  if(fullScreen){
+    setVideoTime(true)
+  }else if (!fullScreen){
+    setVideoTime(false)
+    setThumbnail(cover)
+  }
+}
+
+},[fullScreen])
+
   return (
     <>
       <Grid
@@ -54,7 +88,7 @@ const doVideoActions = () => {
                 width="70%"
                 id="full-screenVideo"                                              
                 className="videoFrame"
-                url={url }
+                url={url}
                 light={thumbnail}
                 playing={videoTime}
                 playIcon={' '}
