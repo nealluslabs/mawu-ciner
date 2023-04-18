@@ -18,10 +18,10 @@ const TrendingStreams3 = ({ title }) => {
        </div>
        
           <Grid container spacing={2}>
-            <TrendingCard name="Tron Legacy" cover={Trend1}/>
-            <TrendingCard name="Dune" cover={Trend2}/>
-            <TrendingCard name="Eternals" cover={Trend3}/>
-            <TrendingCard name="Fast and Furious" cover={Trend4}/>
+            <TrendingCard name="Tron Legacy" cover={Trend1} url="https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/TRON.mp4"/>
+            <TrendingCard name="Dune" cover={Trend2} url="https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/Dune.mp4"/>
+            <TrendingCard name="Eternals" cover={Trend3} url="https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/Eternals.mp4"/>
+            <TrendingCard name="Fast and Furious" cover={Trend4} url="https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/F9.mp4"/>
             </Grid>
             <br/><br/><br/><br/><br/><br/><br/>
       </Container>

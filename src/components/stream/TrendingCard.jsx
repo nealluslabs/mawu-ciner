@@ -5,7 +5,7 @@ import StopIcon from '@mui/icons-material/Stop';
 import AddIcon from "@material-ui/icons/Add";
 import ReactPlayer from 'react-player'
 
-const TrendingCard = ({ name, cover }) => {
+const TrendingCard = ({ name, cover ,url}) => {
   const [videoTime,setVideoTime] = useState(false)
 const [thumbnail,setThumbnail] = useState(cover)
 
@@ -30,7 +30,7 @@ const doVideoActions = () => {
                 width="70%"
                                                              
                 className="videoFrame"
-                url={"https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/DarkKnight.mp4" }
+                url={url }
                 light={thumbnail}
                 playing={videoTime}
                 playIcon={' '}
