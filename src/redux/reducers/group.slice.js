@@ -8,7 +8,11 @@ const initialState = {
        groupMembers: [], 
        employeer: {}, 
        message: '',
+       watchlist:[],
+       toWatch:[],
+       movie:[],      // <---------- where store movieData changes    
       isLoading:false,
+      playlistUpdate:false,
 };
 
 const groupSlice = createSlice({
@@ -33,9 +37,20 @@ const groupSlice = createSlice({
     saveEmployeer: (state, action) => {
       state.employeer = action.payload;
   },
+  storeMovieData: (state, action) => {
+    //state.movie.push(action.payload);  //  <--------------------------- store movie data function itself
+     state.movie = action.payload
+  },
+  storeWatchListData: (state, action) => {
+    //state.watchlist && state.watchlist.push(action.payload);  //  <--------------------------- store movie data function itself
+    state.watchlist = action.payload
+  },
     isItLoading: (state, action) => {
       state.isLoading = action.payload;
   },
+  playlistUpdate: (state, action) => {
+    state.playlistUpdate =action.payload;
+},
     clearGroup: (state) => {
       return {
         ...initialState,
@@ -54,6 +69,9 @@ export const {
  saveGroupMembers,
  saveEmployeer,
  isItLoading,
+ playlistUpdate,
+ storeMovieData,
+ storeWatchListData,
  clearGroup
 } = actions;
 

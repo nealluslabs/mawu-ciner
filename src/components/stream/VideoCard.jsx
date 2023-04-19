@@ -10,21 +10,28 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { fetchGroups, fetchMyGroups, uploadGroupImage,removeFromUserPlaylist,addToUserPlaylist} from '../../redux/actions/group.action';
+import { fetchGroups, fetchMyGroups, uploadGroupImage,fetchMovieData,removeFromUserPlaylist,addToUserPlaylist} from '../../redux/actions/group.action';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserData } from '../../redux/actions/auth.action';
+
 import ReactPlayer from 'react-player'
 import ReactModal from 'react-modal'
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
-const VideoCard = ( { name, cover } ) => {
+const VideoCard = ( { movie }) => {
 const dispatch =useDispatch()
+const { user } = useSelector((state) => state.auth);
+
+console.log("i am in the video card, the movie is",movie)
+
+
 const [added,setAdded] = useState(false)
 const [videoTime,setVideoTime] = useState(false)
-const [thumbnail,setThumbnail] = useState(cover)
+const [thumbnail,setThumbnail] = useState(movie.imageUrl)
 const [fullScreen, setFullScreen] = useState(false);
 const [screenTest, setScreenTest] = useState(false);
 const handle = useFullScreenHandle();
+
 
 const videoRef = useRef()
 
@@ -50,7 +57,7 @@ const doVideoActions = () => {
  
   if(!videoTime) 
   {setThumbnail(false)
-  }else{setThumbnail(cover)}
+  }else{setThumbnail(movie.imageUrl)}
 
   
    if(!videoTime){
@@ -60,15 +67,15 @@ const doVideoActions = () => {
 
 useEffect(()=>{
   
-  dispatch(fetchUserData)
-
+  dispatch(fetchUserData(user.uid))
+ /*may want ot pass it into global reload not local , when movie is added to playlist*/
+ //movie in redux, where exactly do i store 1 movie and not a movies array
 },[added])
 
 /*useEffect(()=>{
-
- handleEsc()
-
-},[videoTime])*/
+fetchMovieData(movieId)
+console.log("i have fetched the movie and is",movie)
+},[])*/
 
 useEffect(()=>{
  
@@ -80,7 +87,7 @@ if(fullScreen === screenTest){
     setVideoTime(true)
   }else if (!fullScreen){
     setVideoTime(false)
-    setThumbnail(cover)
+    setThumbnail(movie.imageUrl)
   }
 }
 
@@ -88,10 +95,11 @@ if(fullScreen === screenTest){
  
 useEffect(()=>{
 
-  if(user.watchList.includes(name)){
-    
+  if(user)
+ { if(user.watchList.includes(movie.id)){
+    console.log("THIs MOVIE IS IN PLAYLIST",movie.id)
     setAdded(true)
-  }
+  }}
 
 },[])
 
@@ -103,8 +111,7 @@ const removeMovie = (userId,movieName) =>{
  //has been removed from the playlist, but I trigger it for now
 }
  
- 
- const { user,error,message,isLoading } = useSelector((state) => state.auth);
+
  //console.log("THIS IS THE LOGGED IN USER INFO",user)
 
   return (
@@ -135,7 +142,7 @@ const removeMovie = (userId,movieName) =>{
                 width="100%"
                  id="full-screenVideo"                                           
                 className="videoFrame"
-                url={"https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/DarkKnight.mp4" }
+                url={movie.url}
                 light={thumbnail}
                 playing={videoTime}
                 playIcon={' '}
@@ -148,7 +155,7 @@ const removeMovie = (userId,movieName) =>{
 
               {/*!videoTime && <img src={cover} style={{ width: "100%"}} />*/}
 
-              <p style={{fontSize: "20px", marginBottom: "10px", color: 'white'}}>{name}</p>
+              <p style={{fontSize: "20px", marginBottom: "10px", color: 'white'}}>{movie.title}</p>
               { <LinearProgress
                 variant="determinate"
                 value={50}
@@ -177,10 +184,10 @@ const removeMovie = (userId,movieName) =>{
                 :
                 <RemoveIcon style={{ fontSize: '24px', color: '#BC4705' }} />}
                
-                <p onClick ={added?()=>{removeMovie(user.uid,name/*,setAdded*/)}:()=>{dispatch(addToUserPlaylist(user.uid,name/*,setAdded*/));setAdded(true)}}
+                <p onClick ={added?()=>{removeMovie(user.uid,movie.id/*,setAdded*/)}:()=>{dispatch(addToUserPlaylist(user.uid,movie.id/*,setAdded*/));setAdded(true)}}
                  style={{ fontSize: '20px', color: '#BC4705', marginLeft: '10px',pointer:"none" }}>
                 
-                 {added === true ? "Remove from Watchlist": "Add to Watchlist"}
+                 {added === true ? "Remove from Watch list": "Add to Watch List"}
                 </p>
                 </div>
 

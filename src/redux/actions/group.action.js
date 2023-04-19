@@ -4,7 +4,7 @@ import firebase from "firebase/app";
 import { clearUser, loginFailed, loginSuccess, logoutFxn, signupFailed, storeUserData } from '../reducers/auth.slice';
 import { v4 as uuidv4 } from 'uuid';
 import { notifyErrorFxn, notifySuccessFxn } from '../../utils/toast-fxn';
-import { isItLoading, saveAllGroup, saveEmployeer, saveGroupMembers, saveMyGroup, savePrivateGroup, savePublicGroup } from '../reducers/group.slice';
+import { isItLoading, playlistUpdate, saveAllGroup, saveEmployeer, saveGroupMembers, saveMyGroup, savePrivateGroup, savePublicGroup,storeMovieData,storeWatchListData } from '../reducers/group.slice';
 
 
 export const createGroup = (groupData, user, file, navigate, url) => async (dispatch) => {
@@ -43,14 +43,94 @@ export const createGroup = (groupData, user, file, navigate, url) => async (disp
   })
 }
 
-export const addToUserPlaylist = (uid,title/*,setAdded*/) => async (dispatch) => {
-  console.log('about to add title',title)
+export const fetchMovieData = (idArray) => async (dispatch) => {
+  const movie = db.collection('movies').where('id', 'in', idArray);
+  movie.get().then((snapshot) => {
+    const movies = snapshot.docs.map((doc) => ({ ...doc.data() }));
+    if (movies.length) {
+    
+  dispatch(storeMovieData(movies));  
+  
+    //window.alert(doc.data().url);
+      
+
+
+
+   /* .then((snapshot) => {
+      const groupMembers = snapshot.docs.map((doc) => ({ ...doc.data() }));
+      if (groupMembers.length) {
+        dispatch(isItLoading(false));
+        console.log('groupMembers Data:', groupMembers);
+        dispatch(saveGroupMembers(groupMembers));
+      } else {
+        dispatch(isItLoading(false));
+        console.log('No group members!');
+      }
+    })*/
+
+
+
+
+
+  } else {
+     
+      //notifyErrorFxn("Unauthorized❌")
+      console.log("No such document!");
+  }
+}).catch((error) => {
+  window.alert(error);
+  console.log("Error getting document:", error);
+});
+return movie;
+};
+
+
+
+
+
+
+export const fetchWatchListData = (idArray) => async (dispatch) => {
+  
+  /*idArray.forEach((item) => {*/
+    const watchListItem = db.collection('movies').where('id', 'in', idArray);
+  watchListItem.get().then((snapshot) => {
+    const watching = snapshot.docs.map((doc) => ({ ...doc.data() }));
+
+    if (watching.length){
+    
+ /*----->*/  dispatch(storeWatchListData(watching));  // <---- watchList issue is here ! storeWatchList data causes the problem
+  
+   // window.alert(doc.data().title);
+      
+  } else {
+     
+      //notifyErrorFxn("Unauthorized❌")
+      console.log("No such movie!");
+  }
+}
+
+  )
+
+.catch((error) => {
+  window.alert(error);
+  console.log("Error getting document:", error);
+});
+  /*})*/
+
+//return movie; this might be  the issue - IF U HAVE BUGS
+};
+
+
+
+export const addToUserPlaylist = (uid,movieId/*,setAdded*/) => async (dispatch) => {
+  console.log('about to add title',movieId)
   db.collection("UserData").doc(uid).update({
-  watchList:firebase.firestore.FieldValue.arrayUnion(title)
+  watchList:firebase.firestore.FieldValue.arrayUnion(movieId)
 }).then((docRef) => {
   console.log("Document updated is: ", docRef);
   /*setAdded(true)*/
-  
+  dispatch(fetchWatchListData)
+  dispatch(playlistUpdate(true));
 })
 .catch((error) => {
   console.error("Error adding adding movie to watch List: ", error);
@@ -60,13 +140,15 @@ export const addToUserPlaylist = (uid,title/*,setAdded*/) => async (dispatch) =>
 }
 
 
-export const removeFromUserPlaylist =(uid,title/*,setAdded*/) => async (dispatch) => {
-  console.log('about to remove title',title)
+export const removeFromUserPlaylist =(uid,movieId/*,setAdded*/) => async (dispatch) => {
+  console.log('about to remove movie id',movieId)
   db.collection("UserData").doc(uid).update({
-    watchList:firebase.firestore.FieldValue.arrayRemove(title)
+    watchList:firebase.firestore.FieldValue.arrayRemove(movieId)
   }).then((docRef) => {
     console.log("Document updated is: ", docRef);
     /*setAdded(false)*/
+    dispatch(fetchWatchListData)
+    dispatch(playlistUpdate(false));
 })
 .catch((error) => {
     console.error("Error deleting movie from watchList: ", error);
@@ -74,6 +156,8 @@ export const removeFromUserPlaylist =(uid,title/*,setAdded*/) => async (dispatch
 });
 
 }
+
+
 
 
 export const uploadGroupImage = (groupData, file,navigate/*, user,setLoading*/) => async (dispatch) => {

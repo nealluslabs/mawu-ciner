@@ -1,29 +1,21 @@
 import React,{useState,useEffect,useRef} from "react";
 import { findDOMNode } from 'react-dom'
 import { Grid, Container, LinearProgress, Box } from "@material-ui/core";
-import { fetchGroups, fetchMyGroups, uploadGroupImage,fetchMovieData,removeFromUserPlaylist,addToUserPlaylist} from '../../redux/actions/group.action';
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StopIcon from '@mui/icons-material/Stop';
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from '@mui/icons-material/Remove';
 import ReactPlayer from 'react-player'
 import ReactModal from 'react-modal'
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserData } from '../../redux/actions/auth.action';
 
-const TrendingCard = ({ name, cover ,url}) => {
+const WatchListCard = ({ name, cover ,url}) => {
   const [videoTime,setVideoTime] = useState(false)
 const [thumbnail,setThumbnail] = useState(cover)
 const [fullScreen, setFullScreen] = useState(false);
 const [screenTest, setScreenTest] = useState(false);
 const [isOpen, setIsOpen] = useState(false);
-const [added,setAdded] = useState(false)
+
 const videoRef = useRef()
-
-const dispatch =useDispatch()
-const { user } = useSelector((state) => state.auth);
-
-const movie = {id:"ZoHXkXrYX7B9HDowPYKg"}
 
 /*const toggleFullScreen = () => {
   var el = document.getElementById("full-screenVideo");
@@ -68,16 +60,6 @@ const doVideoActions = () => {
     }
 }
 
-
-useEffect(()=>{
-  
-  dispatch(fetchUserData(user.uid))
-
-},[added])
-
-
-
-
 useEffect(()=>{
  
   setScreenTest(!screenTest)
@@ -93,26 +75,6 @@ if(fullScreen === screenTest){
 }
 
 },[fullScreen])
-
-
-useEffect(()=>{
-
-  if(user)
- { if(user.watchList.includes(movie.id)){
-    console.log("THIs MOVIE IS IN PLAYLIST",movie.id)
-    setAdded(true)
-  }}
-
-},[])
-
-
-const removeMovie = (userId,movieName) =>{
-  dispatch(removeFromUserPlaylist(userId,movieName/*,setAdded*/))
-   
-  setAdded(false)
- //we cant exactly setAdded until we confirm that the item 
- //has been removed from the playlist, but I trigger it for now
-}
 
   return (
     <>
@@ -147,20 +109,17 @@ const removeMovie = (userId,movieName) =>{
                  }
                 <p style={{ fontSize: '20px', color: '#BC4705', marginLeft: '10px',pointer:"cursor"  }}>{!videoTime?"PLAY":"STOP"}</p>
                 </div>
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                {!added?<AddIcon style={{ fontSize: '24px', color: '#BC4705' }} />
-                :
-                <RemoveIcon style={{ fontSize: '24px', color: '#BC4705' }} />}
-               
-                <p onClick ={added?()=>{removeMovie(user.uid,movie.id/*,setAdded*/)}:()=>{dispatch(addToUserPlaylist(user.uid,movie.id/*,setAdded*/));setAdded(true)}}
-                 style={{ fontSize: '20px', color: '#BC4705', marginLeft: '10px',pointer:"none" }}>
-                
-                 {added === true ? "Remove from Watch list": "Add to Watch List"}
-                </p>
-                </div>
+        <div
+          style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
+        >
+          <RemoveIcon style={{ fontSize: "24px", color: "#BC4705" }} />
+          <p style={{ fontSize: "20px", color: "#BC4705", marginLeft: "10px" }}>
+            Remove from Watch list
+          </p>
+        </div>
       </Grid>
     </>
   );
 };
 
-export default TrendingCard;
+export default WatchListCard;
