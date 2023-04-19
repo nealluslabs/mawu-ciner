@@ -18,12 +18,17 @@ const [fullScreen, setFullScreen] = useState(false);
 const [screenTest, setScreenTest] = useState(false);
 const [isOpen, setIsOpen] = useState(false);
 const [added,setAdded] = useState(false)
+const [movie,setMovie] = useState({id:"ZoHXkXrYX7B9HDowPYKg"})
 const videoRef = useRef()
 
 const dispatch =useDispatch()
 const { user } = useSelector((state) => state.auth);
 
-const movie = {id:"ZoHXkXrYX7B9HDowPYKg"}
+
+
+
+
+
 
 /*const toggleFullScreen = () => {
   var el = document.getElementById("full-screenVideo");
@@ -94,8 +99,36 @@ if(fullScreen === screenTest){
 
 },[fullScreen])
 
+useEffect(()=>{
+
+  if(name === "Beast"){setMovie({id:'6yUCwo7OH4R6ug078L7I'})}
+  if(name === "Avatar"){setMovie({id:'BrgNJO2W16l3b68e2Xx6'})}
+  if(name === "Thor"){setMovie({id:'DemImoDAMHjYzhDE8YOG'})}
+  if(name === "Vikram"){setMovie({id:'G1LSokfNCghGx7EeKlL7'})}
+  
+  if(name === "Eternals"){setMovie({id:'K5Y8ErlaT8F0ezQS2Xn5'})}
+  if(name === "AI"){setMovie({id:'QKsBZIkwvcLJiRJKLQ0g'})}
+  if(name === "Smile"){setMovie({id:'ZgbHCkWKJavRvOsgYgft'})}
+  if(name === "Good Life"){setMovie({id:'ZoHXkXrYX7B9HDowPYKg'})}
+  if(name === "Tron Legacy"){setMovie({id:'frWrvaxsqJpW0xMsMZ3g'})}
+  if(name === "Nope"){setMovie({id:'kCZlGT6CS1ykxaRnEEtw7'})}
+  if(name === "Spectre"){setMovie({id:'maUSeXr6K0u56Yqk0eLs'})}
+  if(name === "The Dark Knight Rises"){setMovie({id:'v9vS3GTnYnyCLdUJa57Q'})}
+  if(name === "Fast and Furious"){setMovie({id:'wwwoExdFhfFFxsbYzm4l'})}
+  if(name === "Dune"){setMovie({id:'x9CPjVrlNIctaXcGQtnF'})}
+
+
+
+},[added])
+
+
+
 
 useEffect(()=>{
+
+
+console.log("movie id is now",movie.id)
+
 
   if(user)
  { if(user.watchList.includes(movie.id)){
