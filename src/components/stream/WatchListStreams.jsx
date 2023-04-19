@@ -12,9 +12,9 @@ import {fetchWatchListData} from '../../redux/actions/group.action';
 const WatchListStreams = ({ content,title }) => {
 
   const dispatch = useDispatch()
-const { watchlist,playlistUpdate,movie} = useSelector((state) => state.group);
+const { toWatch,watchlist,playlistUpdate,movie} = useSelector((state) => state.group);
 const {user} = useSelector((state)=> state.auth)
-console.log("watch list data is",watchlist)
+toWatch !== undefined && console.log("the defined watch list is:",toWatch)
 
 
 
@@ -25,7 +25,7 @@ useEffect(()=>{
   dispatch(fetchWatchListData(content))
     
   console.log("content is",content)
-    console.log("watch list data is",watchlist)
+ 
 
 
 },[playlistUpdate])
@@ -48,10 +48,10 @@ useEffect(()=>{
             <WatchListCard name="Vikram" cover={Trend4}url="https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/Spectre.mp4"/>
                */}
 
-         {watchlist && watchlist.length && watchlist.map(function(item,i){ 
-          console.log(watchlist)
+         {toWatch !==undefined && toWatch.length && toWatch.map(function(item,i){ 
+          console.log(toWatch)
         return(
-        <WatchListCard name={watchlist[i].title} cover={watchlist[i].imageUrl} url={watchlist[i].url}/>  
+        <WatchListCard name={toWatch[i].title} cover={toWatch[i].imageUrl} url={toWatch[i].url}/>  
         )
     }) }
             </Grid>

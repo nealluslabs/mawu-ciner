@@ -8,7 +8,7 @@ import { isItLoading, playlistUpdate, saveAllGroup, saveEmployeer, saveGroupMemb
 
 
 export const createGroup = (groupData, user, file, navigate, url) => async (dispatch) => {
-  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
   var today  = new Date();
    
   db.collection("movies").add({

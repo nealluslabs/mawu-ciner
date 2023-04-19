@@ -43,7 +43,8 @@ const groupSlice = createSlice({
   },
   storeWatchListData: (state, action) => {
     //state.watchlist && state.watchlist.push(action.payload);  //  <--------------------------- store movie data function itself
-    state.watchlist = action.payload
+    state.watchlist && (state.watchlist = action.payload)
+    state.toWatch = action.payload
   },
     isItLoading: (state, action) => {
       state.isLoading = action.payload;

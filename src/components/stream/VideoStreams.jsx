@@ -43,7 +43,7 @@ useEffect(()=>{
           </div>
         <Grid container spacing={2}>
 
-       {movie.length && movie.map(function(item,i){
+       {movie && movie.length && movie.map(function(item,i){
         
           return (
          <VideoCard movie={movie[i]} name={"The Return Of King-Kong"} cover={BGIMG1}/>
